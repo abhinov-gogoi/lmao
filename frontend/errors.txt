@@ -1,0 +1,18 @@
+Error No.1
+src/app/layout/layout.component.scss from Css Minimizer
+Error: Transform failed with 1 error:
+error: Invalid version: "15.2-15.3"
+
+OR 
+
+Warning: Support was requested for IE 11 in the project's browserslist configuration. 
+IE 11 support is deprecated since Angular v12.
+For more information, see https://angular.io/guide/browser-support
+
+Solution -
+add a .browserlistsrc file and comment IE 11 and last 2 Safari major versions
+-https://stackoverflow.com/questions/71322252/how-to-find-the-angular-invalid-version-15-2-15-3-error
+-https://stackoverflow.com/questions/67645151/angular-12-warns-about-requested-ie-11-support-why
+
+-----------------------------------------------------------------------------------------------------------
+
