@@ -46,7 +46,7 @@ export class UserService {
         let options = {
             headers: this.getHttpHeaders()
         };
-        return this._httpClient.get<User>('http://localhost:8080/api/v1/common/user', options).pipe(
+        return this._httpClient.get<User>('https://lmao-backend.herokuapp.com/api/v1/common/user', options).pipe(
             tap((user) => {
                 console.log(user)
                 // user.avatar = localStorage.getItem('image');
@@ -78,7 +78,7 @@ export class UserService {
             headers: this.getHttpHeaders()
         };
 
-        this._httpClient.post<any>('http://localhost:8080/api/v1/common/user/profilePic', { image }, options).subscribe(
+        this._httpClient.post<any>('https://lmao-backend.herokuapp.com/api/v1/common/user/profilePic', { image }, options).subscribe(
             response => {
                 console.log(response)
                 if (response.STATUS === 'Success') {

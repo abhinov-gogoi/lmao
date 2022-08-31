@@ -1,0 +1,4 @@
+Error No. 1
+Fatal error compiling: invalid target release: 11
+Solution : Add system.properties file and manually set java version to 11
+https://stackoverflow.com/questions/53604111/heroku-cannot-deploy-java-11-spring-boot-app

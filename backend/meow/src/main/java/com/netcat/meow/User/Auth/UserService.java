@@ -201,7 +201,7 @@ public class UserService {
                 /**
                  * send confirmation email to confirm the user signup against a working email
                  */
-                String link = Literal.BASE_URL_LOCAL_FRONTEND + "email-confirmed?login_id=" + req_map.get(Literal.login_id) + "&token=" + URLEncoder.encode(token);
+                String link = Literal.BASE_URL_PROD_FRONTEND + "email-confirmed?login_id=" + req_map.get(Literal.login_id) + "&token=" + URLEncoder.encode(token);
                 SendMail.getInstance().send(req_map.get(Literal.login_id).toString(), EmailTemplate.VERIFICATION(req_map.get(Literal.name).toString(), link));
                 /**
                  * ret success
@@ -316,7 +316,7 @@ public class UserService {
                 /**
                  * send password reset email to user
                  */
-                String link = Literal.BASE_URL_LOCAL_FRONTEND + "reset-password?email="+URLEncoder.encode(email)+"&token=" + URLEncoder.encode(user_details.get("session_id").toString());
+                String link = Literal.BASE_URL_PROD_FRONTEND + "reset-password?email="+URLEncoder.encode(email)+"&token=" + URLEncoder.encode(user_details.get("session_id").toString());
                 SendMail.getInstance().send(email, EmailTemplate.PASSWORD_RESET(user_details.get(Literal.name).toString(), link));
                 /**
                  * ret success

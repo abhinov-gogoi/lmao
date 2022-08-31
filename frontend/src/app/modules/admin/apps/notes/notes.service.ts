@@ -57,7 +57,7 @@ export class NotesService {
         let options = {
             headers: this.getHttpHeaders()
         };
-        return this._httpClient.get<Label[]>('http://localhost:8080/api/v1/apps/notes/labels', options).pipe(
+        return this._httpClient.get<Label[]>('https://lmao-backend.herokuapp.com/api/v1/apps/notes/labels', options).pipe(
             tap((response: Label[]) => {
                 this._labels.next(response);
             })
@@ -73,7 +73,7 @@ export class NotesService {
         let options = {
             headers: this.getHttpHeaders()
         };
-        return this._httpClient.post<Label[]>('http://localhost:8080/api/v1/apps/notes/labels', { title }, options).pipe(
+        return this._httpClient.post<Label[]>('https://lmao-backend.herokuapp.com/api/v1/apps/notes/labels', { title }, options).pipe(
             tap((labels) => {
                 console.log(labels)
                 // Update the labels
@@ -93,7 +93,7 @@ export class NotesService {
         let options = {
             headers: this.getHttpHeaders()
         };
-        return this._httpClient.patch<Label[]>('http://localhost:8080/api/v1/apps/notes/labels', { label }, options).pipe(
+        return this._httpClient.patch<Label[]>('https://lmao-backend.herokuapp.com/api/v1/apps/notes/labels', { label }, options).pipe(
             tap((labels) => {
 
                 // Update the notes
@@ -111,7 +111,7 @@ export class NotesService {
      * @param id
      */
     deleteLabel(id: string): Observable<Label[]> {
-        return this._httpClient.delete<Label[]>('http://localhost:8080/api/v1/apps/notes/labels', {
+        return this._httpClient.delete<Label[]>('https://lmao-backend.herokuapp.com/api/v1/apps/notes/labels', {
             params: {
                 id,
                 username: btoa(localStorage.getItem('username')),
@@ -140,7 +140,7 @@ export class NotesService {
         let options = {
             headers: this.getHttpHeaders()
         };
-        return this._httpClient.get<Note[]>('http://localhost:8080/api/v1/apps/notes/all', options).pipe(
+        return this._httpClient.get<Note[]>('https://lmao-backend.herokuapp.com/api/v1/apps/notes/all', options).pipe(
             tap((response: Note[]) => {
                 console.log(response)
                 this._notes.next(response);
@@ -186,7 +186,7 @@ export class NotesService {
         let options = {
             headers: this.getHttpHeaders()
         };
-        return this._httpClient.post<Note>('http://localhost:8080/api/v1/apps/notes/tasks', {
+        return this._httpClient.post<Note>('https://lmao-backend.herokuapp.com/api/v1/apps/notes/tasks', {
             note,
             task
         }, options).pipe(switchMap(() => this.getNotes().pipe(
@@ -209,7 +209,7 @@ export class NotesService {
         note.id = uuid.v4();
         console.log(JSON.stringify(note));
 
-        return this._httpClient.post<any>('http://localhost:8080/api/v1/apps/notes', { note }, options).pipe(
+        return this._httpClient.post<any>('https://lmao-backend.herokuapp.com/api/v1/apps/notes', { note }, options).pipe(
             tap(response => {
                 console.log('Tap :: ' + JSON.stringify(response))
                 if (response.STATUS === 'Error') {
@@ -256,7 +256,7 @@ export class NotesService {
             updatedNote.labels = updatedNote.labels;
         }
 
-        return this._httpClient.patch<Note>('http://localhost:8080/api/v1/apps/notes', { updatedNote }, options).pipe(
+        return this._httpClient.patch<Note>('https://lmao-backend.herokuapp.com/api/v1/apps/notes', { updatedNote }, options).pipe(
             tap((response) => {
                 console.log(response)
                 // Update the notes
@@ -271,7 +271,7 @@ export class NotesService {
      * @param note
      */
     deleteNote(note: Note): Observable<boolean> {
-        return this._httpClient.delete<boolean>('http://localhost:8080/api/v1/apps/notes',
+        return this._httpClient.delete<boolean>('https://lmao-backend.herokuapp.com/api/v1/apps/notes',
             {
                 params:
                 {

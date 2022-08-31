@@ -668,6 +668,7 @@ public class Literal {
     public static final String status = "status";
     public static final String PASSWORD_RESET_EMAIL_SENT_SUCCESSFULLY = "A link to reset your password was sent to your email.";
     public static final String BASE_URL_LOCAL_FRONTEND = "http://localhost:4200/";
+    public static final String BASE_URL_PROD_FRONTEND = "https://abhinov-gogoi.github.io/lmao/";
     public static final String LMAO = "LMAO !!";
     public static final String token = "token";
     public static final String PASSWORD_SET_SUCCESS = "Successfully set new password";

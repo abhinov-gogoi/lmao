@@ -1,7 +1,13 @@
+1. Frontend - github pages
+
 ng build --prod
 ----------------------------
 ng add angular-cli-ghpages
 ----------------------------
-ng deploy --base-href=/LMAO/frontend/
+ng deploy --base-href=/lmao/
 ----------------------------
-https://abhinov-gogoi.github.io/lmao/frontend
+https://abhinov-gogoi.github.io/lmao
+
+
+
+2. Backend heroku account www.abhinovgogoi@gmail.com
