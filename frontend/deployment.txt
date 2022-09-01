@@ -1,6 +1,5 @@
 1. Frontend - github pages
 
-ng build --prod
 ----------------------------
 ng add angular-cli-ghpages
 ----------------------------

@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { HttpClient, HttpErrorResponse, HttpHeaders } from '@angular/common/http';
 import { Observable, ReplaySubject } from 'rxjs';
-import { map, tap } from 'rxjs/operators';
+import { catchError, map, tap } from 'rxjs/operators';
 import { User } from 'app/core/user/user.types';
 
 @Injectable({
@@ -41,19 +41,19 @@ export class UserService {
     /**
      * Get the current logged in user data
      */
-    get(): Observable<User> {
+    get(): Observable<any> {
         console.log("Get the current logged in user data")
         let options = {
             headers: this.getHttpHeaders()
         };
-        return this._httpClient.get<User>('https://lmao-backend.herokuapp.com/api/v1/common/user', options).pipe(
-            tap((user) => {
-                console.log(user)
-                // user.avatar = localStorage.getItem('image');
-
-                this._user.next(user);
-            })
-        );
+        return this._httpClient.get<User>('https://lmao-backend.herokuapp.com/api/v1/common/user', options)
+            .pipe(
+                tap((user) => {
+                    console.log(user)
+                    this._user.next(user);
+                }),
+                catchError(this.handleError('Get the current logged in user data'))
+            )
     }
 
     /**
@@ -98,6 +98,23 @@ export class UserService {
             .set('Cache-Control', 'no-cache')
             .set('accessToken', btoa(localStorage.getItem('accessToken')))
             .set('username', btoa(localStorage.getItem('username')));
+    }
+
+    private handleError(message: String) {
+
+        localStorage.removeItem('username')
+        localStorage.removeItem('token')
+
+        return (err: any) => {
+            let errMsg = `error in ${message}()`;
+            console.log(`${errMsg}:`, err)
+            if (err instanceof HttpErrorResponse) {
+                // you could extract more info about the error if you want, e.g.:
+                console.log(`status: ${err.status}, ${err.statusText}`);
+                // errMsg = ...
+            }
+            return Observable.throw(errMsg);
+        }
     }
 }
 
