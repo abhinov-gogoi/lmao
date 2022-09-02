@@ -3,6 +3,7 @@ import { HttpClient, HttpErrorResponse, HttpHeaders } from '@angular/common/http
 import { Observable, ReplaySubject } from 'rxjs';
 import { catchError, map, tap } from 'rxjs/operators';
 import { User } from 'app/core/user/user.types';
+import { ActivatedRoute, Router } from '@angular/router';
 
 @Injectable({
     providedIn: 'root'
@@ -13,7 +14,7 @@ export class UserService {
     /**
      * Constructor
      */
-    constructor(private _httpClient: HttpClient) {
+    constructor(private _httpClient: HttpClient, private router: Router) {
     }
 
     // -----------------------------------------------------------------------------------------------------
@@ -62,6 +63,7 @@ export class UserService {
 
                     if (user.STATUS === 'Error' || user === undefined) {
                         console.log("No user found !!")
+                        this.router.navigateByUrl('/sign-in')
                         localStorage.removeItem('username')
                         localStorage.removeItem('accessToken')
 
