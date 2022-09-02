@@ -46,7 +46,8 @@ export class UserService {
         // check if userdata is present
         var username = localStorage.getItem('username');
         if (username === null || username === undefined || username === '') {
-            console.log("No current logged in user data found")
+            console.log("No current logged in user data found .. remove accessToken")
+            localStorage.removeItem('accessToken')
             return new Observable();
         }
         let options = {
