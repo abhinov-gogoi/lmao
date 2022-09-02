@@ -3,13 +3,12 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable, of, throwError } from 'rxjs';
 import { catchError, map, switchMap } from 'rxjs/operators';
 import { UserService } from 'app/core/user/user.service';
+import { user } from 'app/mock-api/common/user/data';
 
 @Injectable()
 export class AuthService {
     private _authenticated: boolean = false;
     private BASE_URL = "https://lmao-backend.herokuapp.com";
-    private username;
-
     /**
      * Constructor
      */
@@ -26,13 +25,17 @@ export class AuthService {
     /**
      * Setter & getter for access token
      */
-    set accessToken(token: string) {
+    setAccessToken(token: string, username: string) {
         if (token === null || token === undefined || token === '') {
             // console.log('token missing :: ' + token)
             return;
         } else {
+            console.log('setAccessToken :: ' + token + ' :: ' + username)
+
+            localStorage.setItem('bleh', 'bleh');
+
+            localStorage.setItem('username', username);
             localStorage.setItem('accessToken', token);
-            localStorage.setItem('username', this.username);
         }
 
     }
@@ -100,13 +103,10 @@ export class AuthService {
             switchMap(
                 (response: any) => {
                     console.log(response)
-                    if (response.STATUS === 'Success') {
-                        console.log("Success")
-                        console.log(response)
-                        // Store the access token in the local storage
 
-                        this.username = response.USERNAME;
-                        this.accessToken = response.TOKEN;
+                    if (response.STATUS === 'Success') {
+                        // Store the access token in the local storage
+                        this.setAccessToken(response.TOKEN, response.USERNAME);
 
                         // Set the authenticated flag to true
                         this._authenticated = true;
@@ -136,12 +136,7 @@ export class AuthService {
                 of(false)
             ),
             switchMap((response: any) => {
-
-                this.username = response.USERNAME;
-                // Store the access token in the local storage
-                this.accessToken = response.accessToken;
-
-
+                this.setAccessToken(response.TOKEN, response.USERNAME)
                 // Set the authenticated flag to true
                 this._authenticated = true;
 

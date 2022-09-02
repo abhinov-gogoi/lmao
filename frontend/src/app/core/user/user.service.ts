@@ -43,6 +43,12 @@ export class UserService {
      */
     get(): Observable<any> {
         console.log("Get the current logged in user data")
+        // check if userdata is present
+        var username = localStorage.getItem('username');
+        if (username === null || username === undefined || username === '') {
+            console.log("No current logged in user data found")
+            return new Observable();
+        }
         let options = {
             headers: this.getHttpHeaders()
         };
@@ -52,7 +58,6 @@ export class UserService {
                     console.log(user)
                     this._user.next(user);
                 }),
-                catchError(this.handleError('Get the current logged in user data'))
             )
     }
 
@@ -98,23 +103,6 @@ export class UserService {
             .set('Cache-Control', 'no-cache')
             .set('accessToken', btoa(localStorage.getItem('accessToken')))
             .set('username', btoa(localStorage.getItem('username')));
-    }
-
-    private handleError(message: String) {
-
-        localStorage.removeItem('username')
-        localStorage.removeItem('token')
-
-        return (err: any) => {
-            let errMsg = `error in ${message}()`;
-            console.log(`${errMsg}:`, err)
-            if (err instanceof HttpErrorResponse) {
-                // you could extract more info about the error if you want, e.g.:
-                console.log(`status: ${err.status}, ${err.statusText}`);
-                // errMsg = ...
-            }
-            return Observable.throw(errMsg);
-        }
     }
 }
 
