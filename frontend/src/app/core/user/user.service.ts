@@ -48,15 +48,25 @@ export class UserService {
         if (username === null || username === undefined || username === '') {
             console.log("No current logged in user data found .. remove accessToken")
             localStorage.removeItem('accessToken')
+            localStorage.removeItem('username')
             return new Observable();
         }
         let options = {
             headers: this.getHttpHeaders()
         };
-        return this._httpClient.get<User>('https://lmao-backend.herokuapp.com/api/v1/common/user', options)
+        console.log(options)
+        return this._httpClient.get<User>('http://localhost:8080/api/v1/common/user', options)
             .pipe(
                 tap((user) => {
                     console.log(user)
+
+                    if (user.STATUS === 'Error' || user === undefined) {
+                        console.log("No user found !!")
+                        localStorage.removeItem('username')
+                        localStorage.removeItem('accessToken')
+
+                        return null;
+                    }
                     this._user.next(user);
                 }),
             )

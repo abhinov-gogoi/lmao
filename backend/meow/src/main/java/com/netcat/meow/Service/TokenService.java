@@ -16,7 +16,7 @@ public class TokenService {
     private Conceal encdnc;
     private MainMongoDao dao_mongo;
 
-    public TokenService() {
+    private TokenService() {
         encdnc = Conceal.getInstance();
         dao_mongo = MainMongoDao.getInstance();
     }

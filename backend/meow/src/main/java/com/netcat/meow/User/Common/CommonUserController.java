@@ -38,24 +38,35 @@ public class CommonUserController {
 
     @RequestMapping(value = "api/v1/common/user", method = RequestMethod.GET, headers = Literal.APPLICATION_JSON)
     public Map<String, Object> getUserData() {
-        logger.info("getUserData api hit");
+        Map<String, Object> ret_map = new HashMap<>();
 
-        String accessToken = new String(Base64.getDecoder().decode(request.getHeader(Literal.accessToken)));
-        String login_id = new String(Base64.getDecoder().decode(request.getHeader(Literal.username)));
-        if(!TokenService.getInstance().validateToken(accessToken, login_id)) {
-            logger.info("token validation failed" + request.getRequestURI());
-            return null;
+        logger.info("getUserData api hit");
+        try {
+            String accessToken = new String(Base64.getDecoder().decode(request.getHeader(Literal.accessToken)));
+            String login_id = new String(Base64.getDecoder().decode(request.getHeader(Literal.username)));
+            logger.info(accessToken);
+            logger.info(login_id);
+            if(!TokenService.getInstance().validateToken(accessToken, login_id)) {
+                logger.info("token validation failed" + request.getRequestURI());
+                return ret_map;
+            }
+
+            Document userDetails = userService.getUserDetails(login_id);
+
+            ret_map.put(Literal.id, userDetails.get(Literal._id).toString());
+            ret_map.put(Literal.name, userDetails.get(Literal.name));
+            ret_map.put(Literal.email, userDetails.get(Literal.login_id));
+            ret_map.put(Literal.avatar, userDetails.get(Literal.avatar));
+            ret_map.put(Literal.status, userDetails.get(Literal.active_status));
+            return ret_map;
+        } catch (Exception e) {
+            ret_map.put(Literal.STATUS, Literal.ERROR);
+            ret_map.put(Literal.MESSAGE, Literal.SOMETHING_WENT_WORNG);
+            ret_map.put(Literal.EXCEPTION_MESAGE, e.getMessage());
+            return ret_map;
         }
 
-        Document userDetails = userService.getUserDetails(login_id);
 
-        Map<String, Object> ret_map = new HashMap<>();
-        ret_map.put(Literal.id, userDetails.get(Literal._id).toString());
-        ret_map.put(Literal.name, userDetails.get(Literal.name));
-        ret_map.put(Literal.email, userDetails.get(Literal.login_id));
-        ret_map.put(Literal.avatar, userDetails.get(Literal.avatar));
-        ret_map.put(Literal.status, userDetails.get(Literal.active_status));
-        return ret_map;
     }
 
     @RequestMapping(value = "api/v1/common/user/profilePic", method = RequestMethod.POST, headers = Literal.APPLICATION_JSON)
